@@ -1,11 +1,12 @@
-def convert_to_bgn(price, currency)
-  price = case currency
-            when :usd then price * 1.7408
-            when :eur then price * 1.9557
-            when :gbp then price * 2.6415
-            else price
-          end
+CURRENCY_RATES = {
+                   usd: 1.7408,
+                   eur: 1.9557,
+                   gbp: 2.6415,
+                   bgn: 1.0000,
+                 }
 
+def convert_to_bgn(price, currency)
+  price = converter[currency]
   price.round(2)
 end
 
