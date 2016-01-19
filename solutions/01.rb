@@ -6,8 +6,7 @@ CURRENCY_RATES = {
                  }
 
 def convert_to_bgn(price, currency)
-  price = converter[currency]
-  price.round(2)
+  (price * CURRENCY_RATES[currency]).round(2)
 end
 
 def compare_prices(first_price, first_currency, second_price, second_currency)
