@@ -33,7 +33,7 @@ end
 def obstacle_ahead?(snake, direction, dimensions)
   head = new_head(snake, direction)
 
-  snake.include?(head) or not(play_field(dimensions).include?(head))
+  snake.include?(head) or not (play_field(dimensions).include?(head))
 end
 
 def danger?(snake, direction, dimensions)
