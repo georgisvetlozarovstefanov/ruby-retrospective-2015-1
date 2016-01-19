@@ -1,7 +1,7 @@
 def prime?(number)
   divisors = 0
 
-  2.upto(number-1).each {|x| divisors += 1 if number % x == 0  }
+  2.upto(number - 1).each {|x| divisors += 1 if number % x == 0  }
 
   case number
     when 0 then false
@@ -12,7 +12,7 @@ end
 def prime?(number)
   divisors = 0
 
-  2.upto(number-1).each {|x| divisors += 1 if number % x == 0  }
+  2.upto(number - 1).each {|x| divisors += 1 if number % x == 0  }
 
   case number
     when 0 then false
@@ -40,8 +40,8 @@ end
 def rational_generator(n)
   return  Rational(1,1) if n ==  1
 
-  denominator = rational_generator(n-1).denominator
-  numerator = rational_generator(n-1).numerator
+  denominator = rational_generator(n - 1).denominator
+  numerator = rational_generator(n - 1).numerator
 
   if (numerator + denominator) % 2 == 0
     numerator_incremented = increasing_numerator(numerator, denominator)[0]
@@ -72,7 +72,7 @@ class PrimeSequence
   include Enumerable
 
   def initialize(number)
-    infinity = 1.0/0
+    infinity = 1.0 / 0
     @sequence = (1..infinity).lazy.select{|n| prime?(n)}.take(number)
   end
 
@@ -134,8 +134,8 @@ module DrunkenMathematician
 
   def worthless(n)
     number = 0
-    number +=1 until RationalSequence.new(number).sum > nth_fibonacci(n)
+    number += 1 until RationalSequence.new(number).sum > nth_fibonacci(n)
 
-    RationalSequence.new(number-1).to_a
+    RationalSequence.new(number - 1).to_a
     end
 end
