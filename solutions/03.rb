@@ -32,7 +32,6 @@ class FibonacciSequence
       when 0 then 0
       when 1 then first
       when 2 then second
-
     else
       fibonacci_first_predecessor = nth_fibonacci(place - 1, first: first, second: second)
       fibonacci_second_predecessor = nth_fibonacci(place - 2, first: first, second: second)
@@ -130,5 +129,5 @@ module DrunkenMathematician
     number += 1 until RationalSequence.new(number).sum > target
 
     RationalSequence.new(number - 1).to_a
-    end
+  end
 end

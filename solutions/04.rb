@@ -162,7 +162,7 @@ class BeloteHand < HandCards
 
   def belote?
     belotes = Card::SUITS.map { |suit| king_and_queen(suit) }
-    belotes.any? { |belote| belote  }
+    belotes.any? { |belote| belote }
   end
 
 
