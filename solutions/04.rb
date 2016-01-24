@@ -56,3 +56,103 @@ class Card
     max
   end
 end
+class Deck
+  include Enumerable
+
+  def initialize(deck = Deck::STANDART)
+    @deck = deck
+  end
+
+  def each(&block)
+    @deck.each(&block)
+  end
+
+  def size
+    @deck.size
+  end
+
+  def draw_top_card
+    @deck.shift
+  end
+
+  def draw_bottom_card
+    @deck.pop
+  end
+
+  def top_card
+    @deck.first
+  end
+
+  def bottom_card
+    @deck.last
+  end
+
+  def sort_in(order)
+    @deck.sort { |first, second| second.before?(first, order) }
+  end
+
+  def shuffle
+    @deck.shuffle!
+  end
+
+  def self.build(ranks)
+    deck = Card::SUITS.product(ranks.reverse)
+                      .map { |card| Card.new(card[1], card[0]) }
+    deck
+  end
+
+  def to_s
+    @deck.map { |card| card.to_s }.join("\n")
+  end
+end
+
+class WarDeck < Deck
+  STANDART = Card::SUITS.product(Card::RANKS.reverse)
+                        .map { |card| Card.new(card[1], card[0]) }
+
+  def initialize (deck = WarDeck::STANDART)
+    @deck = deck
+  end
+
+  def deal
+    WarHand.new(@deck.shift(26))
+  end
+
+  def sort
+    sort_in(Card::RANKS)
+  end
+
+end
+
+class BeloteDeck < Deck
+  RANKS = [7, 8, 9, :jack, :queen, :king, 10, :ace]
+  STANDART = Deck.build(RANKS)
+
+  def initialize (deck = BeloteDeck::STANDART)
+    @deck = deck
+  end
+
+  def deal
+    BeloteHand.new(@deck.shift(8))
+  end
+
+  def sort
+    sort_in(RANKS)
+  end
+end
+
+class SixtySixDeck < Deck
+  RANKS = [9, :jack, :queen, :king, 10, :ace]
+  STANDART = Deck.build(RANKS)
+  def initialize(deck = SixtySixDeck::STANDART)
+    @deck = deck
+  end
+
+  def sort
+    sort_in(RANKS)
+  end
+
+  def deal
+    SixtySixHand.new(@deck.shift(6))
+  end
+end
