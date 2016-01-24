@@ -5,7 +5,7 @@ class Card
     @rank = rank
     @suit = suit
   end
-  
+
   def rank
     @rank
   end
@@ -29,7 +29,7 @@ class Card
   def ==(card)
     self.rank == card.rank and self.suit == card.suit
   end
- 
+
   def lower_suit?(card)
     index_self = SUITS.find_index(self.suit)
     index_other = SUITS.find_index(card.suit)
@@ -45,7 +45,7 @@ class Card
     return 1 if lower_suit?(card)
     return 0 if card.suit == self.suit and card.rank == self.rank
     return 1 if card.suit == self.suit and card.less_than?(self, order)
-    return -1 
+    return -1
   end
 
   def self.highest(array, order)
@@ -118,11 +118,11 @@ class HandCards
   def sort(order)
     @hand.sort! { |first, second| first.before?(second, order) }
   end
-  
+
   def king_and_queen(suit)
     king = @hand.find { |card| card.suit == suit and card.rank == :king }
     queen = @hand.find { |card| card.suit == suit and card.rank == :queen }
-    
+
     king and queen
   end
 
@@ -135,7 +135,7 @@ class HandCards
     sort(order)
     (@hand.each_cons(length)).any? do |cards|
       if(cards.first.suit == cards.last.suit)
-        cards.last.index_rank(order) - cards.first.index_rank(order) == length - 1
+        cards.last.index_rank(order) - cards[0].index_rank(order) == length - 1
       end
     end
   end

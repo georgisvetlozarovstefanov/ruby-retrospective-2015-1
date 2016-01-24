@@ -46,7 +46,7 @@ class FibonacciSequence
 
     while @sequence.size < size
       @sequence.push(first)
-  
+
       new_number = generate_next(first, second)
       first = second
       second = new_number
