@@ -106,6 +106,106 @@ class Deck
   end
 end
 
+class HandCards
+  def initialize(hand)
+    @hand = hand
+  end
+
+  def size
+    @hand.size
+  end
+
+  def sort(order)
+    @hand.sort! { |first, second| first.before?(second, order) }
+  end
+  
+  def king_and_queen(suit)
+    king = @hand.find { |card| card.suit == suit and card.rank == :king }
+    queen = @hand.find { |card| card.suit == suit and card.rank == :queen }
+    
+    king and queen
+  end
+
+  def carre_of?(rank)
+    count = @hand.keep_if { |card| card.rank == rank }
+    count.size == 4
+  end
+
+  def consecutive?(length, order)
+    sort(order)
+    (@hand.each_cons(length)).any? do |cards|
+      if(cards.first.suit == cards.last.suit)
+        cards.last.index_rank(order) - cards.first.index_rank(order) == length - 1
+      end
+    end
+  end
+
+end
+
+class WarHand < HandCards
+
+  def play_card
+   @hand.delete_at(@hand.size)
+  end
+
+  def allow_face_up?
+    size <= 3
+  end
+end
+
+class BeloteHand < HandCards
+  def highest_of_suit(suit)
+    of_suit = @hand.select { |card| card.suit == suit }
+    Card.highest(of_suit, BeloteDeck::RANKS)
+  end
+
+
+  def belote?
+    belotes = Card::SUITS.map { |suit| king_and_queen(suit) }
+    belotes.any? { |belote| belote  }
+  end
+
+
+  def tierce?
+    consecutive?(3, BeloteDeck::RANKS)
+  end
+
+
+  def quarte?
+    consecutive?(4, BeloteDeck::RANKS)
+  end
+
+
+  def quint?
+    consecutive?(5, BeloteDeck::RANKS)
+  end
+
+  def carre_of_jacks?
+    carre_of?(:jack)
+  end
+
+  def carre_of_nines?
+    carre_of?(9)
+  end
+
+  def carre_of_aces?
+    carre_of?(:ace)
+  end
+end
+
+class SixtySixHand < HandCards
+  def twenty?(trump_suit)
+    not_trumps = Card::SUITS.keep_if { |suit| suit != trump_suit }
+    not_trumps.map! { |suit| forty?(suit) }
+    not_trumps.any? { |twenty| twenty }
+  end
+
+  def forty?(trump_suit)
+    return true if king_and_queen(trump_suit)
+    return false
+  end
+end
+
 class WarDeck < Deck
   STANDART = Card::SUITS.product(Card::RANKS.reverse)
                         .map { |card| Card.new(card[1], card[0]) }
