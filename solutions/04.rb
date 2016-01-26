@@ -88,7 +88,7 @@ class Deck
   end
 
   def sort_in(order)
-    @deck.sort { |first, second| second.before?(first, order) }
+    @deck.sort! { |first, second| second.before?(first, order) }
   end
 
   def shuffle
@@ -96,8 +96,8 @@ class Deck
   end
 
   def self.build(ranks)
-    deck = Card::SUITS.product(ranks.reverse)
-                      .map { |card| Card.new(card[1], card[0]) }
+    deck = Card::SUITS.product(ranks.reverse).
+                       map { |card| Card.new(card[1], card[0]) }
     deck
   end
 
@@ -207,8 +207,8 @@ class SixtySixHand < HandCards
 end
 
 class WarDeck < Deck
-  STANDART = Card::SUITS.product(Card::RANKS.reverse)
-                        .map { |card| Card.new(card[1], card[0]) }
+  STANDART = Card::SUITS.product(Card::RANKS.reverse).
+                         map { |card| Card.new(card[1], card[0]) }
 
   def initialize (deck = WarDeck::STANDART)
     @deck = deck
